@@ -76,21 +76,21 @@ export default function SignupForm() {
                 <Label htmlFor="name">Name</Label>
                 <div className="relative">
                   <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                  <Input id="name" placeholder="Dein Name" value={name} onChange={(e: any) => setName(e.target.value)} className="pl-10" />
+                  <Input id="name" name="name" placeholder="Dein Name" value={name} onChange={(e: any) => setName(e.target.value)} className="pl-10" />
                 </div>
               </div>
               <div className="space-y-2">
                 <Label htmlFor="email">E-Mail</Label>
                 <div className="relative">
                   <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                  <Input id="email" type="email" placeholder="deine@email.de" value={email} onChange={(e: any) => setEmail(e.target.value)} className="pl-10" required />
+                  <Input id="email" name="email" type="email" placeholder="deine@email.de" value={email} onChange={(e: any) => setEmail(e.target.value)} className="pl-10" required />
                 </div>
               </div>
               <div className="space-y-2">
                 <Label htmlFor="password">Passwort</Label>
                 <div className="relative">
                   <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                  <Input id="password" type="password" placeholder="Min. 6 Zeichen" value={password} onChange={(e: any) => setPassword(e.target.value)} className="pl-10" required />
+                  <Input id="password" name="password" type="password" placeholder="Min. 6 Zeichen" value={password} onChange={(e: any) => setPassword(e.target.value)} className="pl-10" required />
                 </div>
               </div>
               <Button type="submit" className="w-full" disabled={loading}>
