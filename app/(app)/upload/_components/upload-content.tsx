@@ -56,31 +56,23 @@ export default function UploadContent({ subjects }: { subjects: any[] }) {
     setError('');
 
     try {
-      // 1. Get presigned upload URL
-      const presignedRes = await fetch('/api/upload/presigned', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ fileName: file.name, contentType: file.type, isPublic: false }),
-      });
-      if (!presignedRes.ok) throw new Error('Upload-URL fehlgeschlagen');
-      const { uploadUrl, cloud_storage_path } = await presignedRes.json();
+      // Bild direkt für die KI vorbereiten – kein S3-Upload nötig
+setState('analyzing');
+setProgress(15);
 
-      setProgress(20);
+const arrayBuffer = await file.arrayBuffer();
+const bytes = new Uint8Array(arrayBuffer);
+let binary = '';
+const chunkSize = 0x8000;
 
-      // 2. Upload to S3
-      const uploadRes = await fetch(uploadUrl, {
-        method: 'PUT',
-        headers: { 'Content-Type': file.type },
-        body: file,
-      });
-      if (!uploadRes.ok) throw new Error('Upload fehlgeschlagen');
+for (let i = 0; i < bytes.length; i += chunkSize) {
+  binary += String.fromCharCode(...bytes.subarray(i, i + chunkSize));
+}
 
-      setProgress(40);
-      setState('analyzing');
+const base64 = btoa(binary);
+setProgress(40);
 
-      // 3. Convert to base64 for LLM
-      const arrayBuffer = await file.arrayBuffer();
-      const base64 = btoa(String.fromCharCode(...new Uint8Array(arrayBuffer)));
+    
 
       // 4. Call analyze API with streaming
       const analyzeRes = await fetch('/api/analyze', {
@@ -90,7 +82,6 @@ export default function UploadContent({ subjects }: { subjects: any[] }) {
           subjectId,
           imageBase64: base64,
           contentType: file.type,
-          cloud_storage_path,
           isPublic: false,
         }),
       });
