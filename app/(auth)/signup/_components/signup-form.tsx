@@ -68,7 +68,7 @@ export default function SignupForm() {
             <CardDescription>Registriere dich kostenlos</CardDescription>
           </CardHeader>
           <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form action="/api/signup" method="POST" className="space-y-4">
               {error && (
                 <div className="p-3 text-sm text-destructive bg-destructive/10 rounded-lg">{error}</div>
               )}
