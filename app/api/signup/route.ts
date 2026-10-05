@@ -5,7 +5,10 @@ import bcrypt from 'bcryptjs';
 
 export async function POST(request: Request) {
   try {
-    const body = await request.json();
+    const contentType = request.headers.get('content-type') ?? '';
+const body = contentType.includes('application/json')
+  ? await request.json()
+  : Object.fromEntries((await request.formData()).entries());
     const { email, password, name } = body ?? {};
     if (!email || !password) {
       return NextResponse.json({ error: 'E-Mail und Passwort erforderlich' }, { status: 400 });
