@@ -1,0 +1,29 @@
+name: Import LernAI
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: LernAI ZIP entpacken
+        run: |
+          mkdir /tmp/lernai
+          unzip -q lernai-vercel-ready.zip -d /tmp/lernai
+          cp -a /tmp/lernai/. .
+          rm -f lernai-vercel-ready.zip
+          rm -f .env
+
+      - name: Änderungen speichern
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Import LernAI project"
+          git push
