@@ -21,7 +21,7 @@ const body = contentType.includes('application/json')
     const user = await prisma.user.create({
       data: { email, hashedPassword, name: name ?? '' },
     });
-    return NextResponse.redirect(new URL('/login?registered=1', request.url), 303););
+    return NextResponse.redirect(new URL('/login?registered=1', request.url), 303);)
     } catch (error: any) {
     console.error('Signup error:', error);
     return NextResponse.json({ error: 'Registrierung fehlgeschlagen' }, { status: 500 });
