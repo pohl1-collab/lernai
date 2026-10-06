@@ -22,14 +22,14 @@ export async function POST(request: Request) {
     if (!apiKey) return NextResponse.json({ error: 'API-Key nicht konfiguriert' }, { status: 500 });
 
     // Call LLM with streaming
-    const llmResponse = await fetch('https://apps.abacus.ai/v1/chat/completions', {
+    const llmResponse = await fetch('https://routellm.abacus.ai/v1/chat/completions
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${apiKey}`,
       },
       body: JSON.stringify({
-        model: 'claude-sonnet-4-6',
+        model: 'route-llm',
         messages: [
           {
             role: 'user',
